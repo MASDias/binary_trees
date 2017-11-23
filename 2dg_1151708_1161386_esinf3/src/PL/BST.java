@@ -246,7 +246,11 @@ public class BST<E extends Comparable<E>> implements BSTInterface<E> {
      * @return iterable collection of the tree's elements reported in pre-order
      */
     public Iterable<E> preOrder() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<E> snapshot = new ArrayList<>();
+        if (root != null) {
+            preOrderSubtree(root, snapshot);   // fill the snapshot recursively
+        }
+        return snapshot;
     }
 
     /**
@@ -257,7 +261,12 @@ public class BST<E extends Comparable<E>> implements BSTInterface<E> {
      * @param snapshot a list to which results are appended
      */
     private void preOrderSubtree(Node<E> node, List<E> snapshot) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (node == null) {
+            return;
+        }
+        snapshot.add(node.getElement());
+        inOrderSubtree(node.getLeft(), snapshot);
+        inOrderSubtree(node.getRight(), snapshot);
     }
 
     /**
@@ -267,7 +276,11 @@ public class BST<E extends Comparable<E>> implements BSTInterface<E> {
      * @return iterable collection of the tree's elements reported in post-order
      */
     public Iterable<E> posOrder() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<E> snapshot = new ArrayList<>();
+        if (root != null) {
+            posOrderSubtree(root, snapshot);   // fill the snapshot recursively
+        }
+        return snapshot;
     }
 
     /**
@@ -278,7 +291,12 @@ public class BST<E extends Comparable<E>> implements BSTInterface<E> {
      * @param snapshot a list to which results are appended
      */
     private void posOrderSubtree(Node<E> node, List<E> snapshot) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (node == null) {
+            return;
+        }
+        inOrderSubtree(node.getLeft(), snapshot);
+        inOrderSubtree(node.getRight(), snapshot);
+        snapshot.add(node.getElement());
     }
 
     /*
