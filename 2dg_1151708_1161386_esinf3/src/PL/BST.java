@@ -92,14 +92,14 @@ public class BST<E extends Comparable<E>> implements BSTInterface<E> {
     }
 
     private Node<E> insert(E element, Node<E> node) {
-        if (node == null) {                                 //Verifica se o node pretendido existe 
-            return new Node(element, null, null);           //Se não existir, cria uma folha na árvore
+        if (node == null || element == null) {                      //Verifica se o node pretendido existe 
+            return new Node(element, null, null);                   //Se não existir, cria uma folha na árvore
         }
-        if (node.getElement().compareTo(element) == 0) {      // replace existing element
+        if (node.getElement().compareTo(element) == 0) {            // replace existing element
             node.setElement(element);
-        } else if (element.compareTo(node.getElement()) < 0) {     //se o elemento a ser inserido for menor, insere um elemento a esquerda
+        } else if (element.compareTo(node.getElement()) < 0) {      //se o elemento a ser inserido for menor, insere um elemento a esquerda
             node.setLeft(insert(element, node.getLeft()));
-        } else {                                            //se o elemento a ser inserido for maior, insere um elemento a direita
+        } else {                                                    //se o elemento a ser inserido for maior, insere um elemento a direita
             node.setRight(insert(element, node.getRight()));
         }
         return node;
