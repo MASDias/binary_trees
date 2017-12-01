@@ -134,11 +134,11 @@ public class AVL<E extends Comparable<E>> extends BST<E> {
         }
     }
     
-    public Node<E> find(Node<E> node, E element){
-        return find(element, node);
-    }
-
-    public Node<E> getRoot(){
-        return root;
+    public E find(E element){
+        Node<E> node = find(element, root);
+        if (node == null) {
+            return null;
+        }
+        return node.getElement();
     }
 }

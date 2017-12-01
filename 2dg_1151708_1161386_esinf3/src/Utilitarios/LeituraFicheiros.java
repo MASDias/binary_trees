@@ -40,7 +40,7 @@ public class LeituraFicheiros {
         
         for (String linha : list) {
             String[] campos = linha.split(";");
-            Polygon p = new Polygon(campos[0], Integer.parseInt(campos[1]));           
+            Polygon p = new Polygon(campos[1],Integer.parseInt(campos[0]) );           
             arvore.insert(p);
         }   
     }
