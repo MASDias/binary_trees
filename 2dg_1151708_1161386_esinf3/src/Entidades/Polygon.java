@@ -25,6 +25,10 @@ public class Polygon implements Comparable<Polygon> {
         return numeroLados;
     }
 
+    public void setNumeroLados(int numeroLados) {
+        this.numeroLados = numeroLados;
+    }
+
     @Override
     public String toString() {
         return nome + " " + numeroLados;

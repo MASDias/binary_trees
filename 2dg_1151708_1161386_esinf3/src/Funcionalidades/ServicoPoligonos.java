@@ -35,19 +35,24 @@ public class ServicoPoligonos {
 
     public String nomePoligonoPorNumero(int numero, boolean construcao) {
         String nome = "";
-        if(!construcao && numero <3){
+        if (!construcao && numero < 3) {
             return "Não é um poligono";
         }
-        int centenas = (numero / 100) * 100;
-        nome += poligonoCentenas(centenas, nome);
-        numero = numero % 100;
-        int dezenas = (numero/10)*10;
-        nome += poligonoDezenas(dezenas, nome);
-        if (numero >= DEZENAS_MENOR && numero <= CASO_ESPECIAL_DEZENAS_MAIOR) {
-            return nome + "gon";
+        if (numero >= CENTENAS_MENOR) {
+            int centenas = (numero / 100) * 100;
+            nome += poligonoCentenas(centenas, nome);
         }
-        numero = numero%10;
-        return nome + poligonoUnidades(numero % 10, nome) + "gon";
+        numero = numero % 100;
+        if (numero >= DEZENAS_MENOR && numero <= CASO_ESPECIAL_DEZENAS_MAIOR) {
+            nome += poligonoDezenas(numero, nome);
+            return nome + "gon";
+        } else {
+            int dezenas = (numero / 10) * 10;
+            nome += poligonoDezenas(dezenas, nome);
+        }
+        numero = numero % 10;
+        nome += poligonoUnidades(numero, nome) ;
+        return nome + "gon";
     }
 
     private String poligonoUnidades(int numero, String nome) {
@@ -55,7 +60,7 @@ public class ServicoPoligonos {
             Polygon p = new Polygon("", numero);
             return arvoreUnidades.find(p).getNome();
         }
-        return nome;
+        return "";
     }
 
     private String poligonoDezenas(int numero, String nome) {
@@ -63,7 +68,7 @@ public class ServicoPoligonos {
             Polygon p = new Polygon("", numero);
             return arvoreDezenas.find(p).getNome();
         }
-        return nome;
+        return "";
     }
 
     private String poligonoCentenas(int numero, String nome) {
@@ -71,30 +76,33 @@ public class ServicoPoligonos {
             Polygon p = new Polygon("", numero);
             return arvoreCentenas.find(p).getNome();
         }
-        return nome;
+        return "";
     }
 
-    public void arvoreBalanceadaPoligonos(AVL<Polygon> novaArvore){
+    public void arvoreBalanceadaPoligonos(AVL<Polygon> novaArvore) {
         for (int i = 1; i < 1000; i++) {
             String nome = nomePoligonoPorNumero(i, true);
             Polygon p = new Polygon(nome, i);
             novaArvore.insert(p);
         }
     }
-    
-    public int numeroPoligonoPorNumero(String nome) {
+
+    public int numeroPoligonoPorNome(String nome) {
         AVL<Polygon> arvoreCompleta = new AVL<>();
         arvoreBalanceadaPoligonos(arvoreCompleta);
         int numero = procuraPorNome(arvoreCompleta, nome);
+        int i = 1;
+        Polygon p = arvoreCompleta.find(new Polygon("", i));
         return numero;
     }
-    private int procuraPorNome(AVL<Polygon> arvore,String nome){
+
+    private int procuraPorNome(AVL<Polygon> arvore, String nome) {
         for (Polygon p : arvore.posOrder()) {
-            System.out.println(p);
-            if(p.getNome().equalsIgnoreCase(nome)){
+            if (p.getNome().equalsIgnoreCase(nome)) {
                 return p.getNumeroLados();
             }
         }
         return 0;
     }
+
 }

@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 
 public class LeituraFicheiros {
-    private ArrayList<String> lerFicheiro(String nomeFicheiro) {
+    public  ArrayList<String> lerFicheiro(String nomeFicheiro) {
         ArrayList<String> linhas = new ArrayList<>();
         Scanner read = null;
         try {

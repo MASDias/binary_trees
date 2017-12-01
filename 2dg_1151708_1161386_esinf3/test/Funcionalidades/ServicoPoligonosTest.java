@@ -7,6 +7,8 @@ package Funcionalidades;
 
 import Entidades.Polygon;
 import PL.AVL;
+import Utilitarios.LeituraFicheiros;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,6 +23,7 @@ import static org.junit.Assert.*;
 public class ServicoPoligonosTest {
 
     ServicoPoligonos instance;
+    ArrayList<String> polygonResult;
 
     public ServicoPoligonosTest() {
     }
@@ -36,6 +39,8 @@ public class ServicoPoligonosTest {
     @Before
     public void setUp() {
         instance = new ServicoPoligonos();
+        LeituraFicheiros l = new LeituraFicheiros();
+        polygonResult = l.lerFicheiro("teste_nome_lados.txt");
     }
 
     @After
@@ -47,23 +52,38 @@ public class ServicoPoligonosTest {
      */
     @Test
     public void testNomePoligonoPorNumero() {
-        String nome = instance.nomePoligonoPorNumero(9, false);
-        System.out.println(nome);
-        
-        nome = instance.nomePoligonoPorNumero(29,false);
-        System.out.println(nome);
-        
-        nome = instance.nomePoligonoPorNumero(524,false);
-        System.out.println(nome);
-        
-        nome = instance.nomePoligonoPorNumero(999,false);
-        System.out.println(nome);
-        
-        nome = instance.nomePoligonoPorNumero(0,false);
-        System.out.println(nome);
-        
-        int numero = instance.numeroPoligonoPorNumero("hectatetracontapentagon");
-        System.out.println(numero);
+        for (int i = 0; i < 999; i++) {
+            String result = polygonResult.get(i).split(";")[0];
+            String expResult = instance.nomePoligonoPorNumero(i+1, true);
+            assertEquals(result, expResult);
+        }
+    }
+
+    /**
+     * Test of arvoreBalanceadaPoligonos method, of class ServicoPoligonos.
+     */
+    @Test
+    public void testArvoreBalanceadaPoligonos() {
+        System.out.println("arvoreBalanceadaPoligonos");
+        AVL<Polygon> novaArvore = null;
+        ServicoPoligonos instance = new ServicoPoligonos();
+        instance.arvoreBalanceadaPoligonos(novaArvore);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of numeroPoligonoPorNome method, of class ServicoPoligonos.
+     */
+    @Test
+    public void testNumeroPoligonoPorNumero() {
+         for (int i = 0; i < 999; i++) {
+            String strresult = polygonResult.get(i).split(";")[1];
+            int result = Integer.parseInt(strresult);
+            String nome = polygonResult.get(i).split(";")[0];
+            int expResult = instance.numeroPoligonoPorNome(nome);
+            assertEquals(result, expResult);
+        }
     }
 
 }
