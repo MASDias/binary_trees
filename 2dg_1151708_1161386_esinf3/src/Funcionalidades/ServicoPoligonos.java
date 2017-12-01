@@ -36,16 +36,38 @@ public class ServicoPoligonos {
 
     public String nomePoligonoPorNumero(int numero) {
         String nome = "";
+        int centenas = (numero / 100) * 100;
+        nome += poligonoCentenas(centenas, nome);
+        numero = numero % 100;
+        nome += poligonoDezenas(numero, nome);
+        if (numero >= CASO_ESPECIAL_DEZENAS_MENOR && numero <= CASO_ESPECIAL_DEZENAS_MAIOR) {
+            return nome + "gon";
+        }
+        return nome + poligonoUnidades(numero % 10, nome) + "gon";
+    }
+
+    private String poligonoUnidades(int numero, String nome) {
         if (numero <= UNIDADES_MAIOR && numero >= UNIDADES_MENOR) {
             Polygon p = new Polygon("", numero);
-            nome = arvoreUnidades.find(p).getNome();
+            return arvoreUnidades.find(p).getNome();
         }
-        
         return nome;
     }
 
-    public AVL<Polygon> getArvoreUnidades() {
-        return arvoreUnidades;
+    private String poligonoDezenas(int numero, String nome) {
+        if (numero >= CASO_ESPECIAL_DEZENAS_MENOR && numero <= DEZENAS_MAIOR) {
+            Polygon p = new Polygon("", numero);
+            return arvoreDezenas.find(p).getNome();
+        }
+        return nome;
+    }
+
+    private String poligonoCentenas(int numero, String nome) {
+        if (numero >= CENTENAS_MENOR && numero <= CENTENAS_MAIOR) {
+            Polygon p = new Polygon("", numero);
+            return arvoreCentenas.find(p).getNome();
+        }
+        return nome;
     }
 
 }

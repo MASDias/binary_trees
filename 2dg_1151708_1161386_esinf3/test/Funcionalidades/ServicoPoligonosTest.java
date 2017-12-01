@@ -47,6 +47,12 @@ public class ServicoPoligonosTest {
     public void testNomePoligonoPorNumero() {
         String nome = instance.nomePoligonoPorNumero(9);
         System.out.println(nome);
+        
+        nome = instance.nomePoligonoPorNumero(29);
+        System.out.println(nome);
+        
+        nome = instance.nomePoligonoPorNumero(524);
+        System.out.println(nome);
     }
 
 }
