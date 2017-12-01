@@ -63,7 +63,6 @@ public class Polygon implements Comparable<Polygon> {
         } else if (numeroLados < o.numeroLados) {
             return -1;
         }
-        
         return 0;    
     }
 

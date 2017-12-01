@@ -5,6 +5,8 @@
  */
 package Funcionalidades;
 
+import Entidades.Polygon;
+import PL.AVL;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,14 +47,23 @@ public class ServicoPoligonosTest {
      */
     @Test
     public void testNomePoligonoPorNumero() {
-        String nome = instance.nomePoligonoPorNumero(9);
+        String nome = instance.nomePoligonoPorNumero(9, false);
         System.out.println(nome);
         
-        nome = instance.nomePoligonoPorNumero(29);
+        nome = instance.nomePoligonoPorNumero(29,false);
         System.out.println(nome);
         
-        nome = instance.nomePoligonoPorNumero(524);
+        nome = instance.nomePoligonoPorNumero(524,false);
         System.out.println(nome);
+        
+        nome = instance.nomePoligonoPorNumero(999,false);
+        System.out.println(nome);
+        
+        nome = instance.nomePoligonoPorNumero(0,false);
+        System.out.println(nome);
+        
+        int numero = instance.numeroPoligonoPorNumero("hepta");
+        System.out.println(numero);
     }
 
 }
