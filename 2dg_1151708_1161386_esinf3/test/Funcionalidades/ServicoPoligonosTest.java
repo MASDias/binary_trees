@@ -62,7 +62,7 @@ public class ServicoPoligonosTest {
         nome = instance.nomePoligonoPorNumero(0,false);
         System.out.println(nome);
         
-        int numero = instance.numeroPoligonoPorNumero("hepta");
+        int numero = instance.numeroPoligonoPorNumero("hectatetracontapentagon");
         System.out.println(numero);
     }
 

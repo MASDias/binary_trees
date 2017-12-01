@@ -81,11 +81,20 @@ public class ServicoPoligonos {
             novaArvore.insert(p);
         }
     }
+    
     public int numeroPoligonoPorNumero(String nome) {
-        int numero = 0;
-        Polygon p = new Polygon(nome, 0);
-        numero = arvoreUnidades.find(p).getNumeroLados();
+        AVL<Polygon> arvoreCompleta = new AVL<>();
+        arvoreBalanceadaPoligonos(arvoreCompleta);
+        int numero = procuraPorNome(arvoreCompleta, nome);
         return numero;
     }
-    
+    private int procuraPorNome(AVL<Polygon> arvore,String nome){
+        for (Polygon p : arvore.posOrder()) {
+            System.out.println(p);
+            if(p.getNome().equalsIgnoreCase(nome)){
+                return p.getNumeroLados();
+            }
+        }
+        return 0;
+    }
 }
