@@ -74,7 +74,7 @@ public class BSTTest {
         System.out.println("remove");
 
         int qtd=arr.length;
-        instance.remove(999);
+        instance.remove(99);
 
         assertEquals("size should be = "+qtd, instance.size(), qtd);
         for (int i=0; i<arr.length; i++){

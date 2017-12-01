@@ -35,11 +35,12 @@ public class LeituraFicheiros {
     /**
      *
      */
-    public void construcaoArvore(AVL<Polygon> arvore, ArrayList<String> list){ 
+    public void construcaoArvore(AVL<Polygon> arvore, String nomeFicheiro){ 
+        ArrayList<String> list = lerFicheiro(nomeFicheiro);
+        
         for (String linha : list) {
             String[] campos = linha.split(";");
-            Polygon p = new Polygon(campos[0], Integer.parseInt(campos[1]));
-            
+            Polygon p = new Polygon(campos[0], Integer.parseInt(campos[1]));           
             arvore.insert(p);
         }   
     }
