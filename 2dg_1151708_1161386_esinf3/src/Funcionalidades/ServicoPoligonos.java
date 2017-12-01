@@ -5,6 +5,31 @@
  */
 package Funcionalidades;
 
+import Entidades.Polygon;
+import PL.AVL;
+import javafx.scene.Node;
+
 public class ServicoPoligonos {
+    
+    private AVL<Polygon> arvoreUnidades;
+    private AVL<Polygon> arvoreDezenas;
+    private AVL<Polygon> arvoreCentenas;
+
+    public ServicoPoligonos() {
+        this.arvoreUnidades = new AVL();
+        this.arvoreDezenas = new AVL<>();
+        this.arvoreCentenas = new AVL<>();
+    }
+    
+    public String nomePoligonoPorNumero(String numero){
+        String nome = null;
+        
+        char[] charArray = nome.toCharArray();
+        
+        
+        
+        
+        return nome;
+    }
     
 }
