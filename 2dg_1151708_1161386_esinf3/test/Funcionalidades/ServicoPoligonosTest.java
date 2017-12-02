@@ -37,7 +37,7 @@ public class ServicoPoligonosTest {
         instance = new ServicoPoligonos();
         LeituraFicheiros l = new LeituraFicheiros();
         polygonResult = l.lerFicheiro("teste_nome_lados.txt");
-        
+
     }
 
     @After
@@ -55,6 +55,7 @@ public class ServicoPoligonosTest {
             assertEquals(result, expResult);
         }
     }
+
     /**
      * Test of arvoreBalanceadaPoligonos method, of class ServicoPoligonos.
      */
@@ -68,10 +69,10 @@ public class ServicoPoligonosTest {
             Polygon p = new Polygon(nome, lados);
             resultTree.insert(p);
         }
-        
+
         AVL<Polygon> expResultTree = new AVL<>();
         instance.arvoreBalanceadaPoligonos(expResultTree);
-        
+
         while (!expResultTree.isEmpty() && !resultTree.isEmpty()) {
             Polygon result = resultTree.smallestElement();
             Polygon expResult = expResultTree.smallestElement();
@@ -96,7 +97,6 @@ public class ServicoPoligonosTest {
         }
     }
 
-
     /**
      * Test of poligonosPorIntervalo method, of class ServicoPoligonos.
      */
@@ -111,7 +111,7 @@ public class ServicoPoligonosTest {
         }
         LinkedList<String> result = instance.poligonosPorIntervalo(intervaloEsquerda, intervaloDireita);
         assertEquals(result, result);
-        
+
     }
 
     /**
@@ -120,11 +120,13 @@ public class ServicoPoligonosTest {
     @Test
     public void testAntecessorComumMaisProximo() {
         System.out.println("antecessorComumMaisProximo");
-        Polygon a = new Polygon("pentagon",5);
-        Polygon b = new Polygon("tetragon",4);
-        Polygon expResult = null;
-        Polygon result = instance.antecessorComumMaisProximo(a, b);
-        assertEquals(expResult, result);
+        AVL<Polygon> arvore = new AVL<>();
+        for (int i = 1; i < 16; i++) {
+            arvore.insert(new Polygon("abc"+i, i));
+        }
+        System.out.println(arvore);
+        Polygon r = arvore.lowestCommonAncestor(new Polygon("abc3", 3), new Polygon("abc2", 2));
+        assertEquals(new Polygon("abc2", 2), r);
     }
 
 }
