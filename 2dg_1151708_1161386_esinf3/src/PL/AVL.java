@@ -133,12 +133,25 @@ public class AVL<E extends Comparable<E>> extends BST<E> {
             return false;
         }
     }
-    
-    public E find(E element){
+
+    public E find(E element) {
         Node<E> node = find(element, root);
         if (node == null) {
             return null;
         }
         return node.getElement();
+    }
+
+    public E lowestCommonAncestor(E firstElement, E secondElement) {
+        while (root != null) {
+            if (root.getElement().compareTo(firstElement) > 0 && root.getElement().compareTo(secondElement) > 0) {
+                root = root.getLeft();
+            } else if (root.getElement().compareTo(firstElement) < 0 && root.getElement().compareTo(secondElement) < 0) {
+                root = root.getRight();
+            } else {
+                return root.getElement();
+            }
+        }
+        return null;
     }
 }

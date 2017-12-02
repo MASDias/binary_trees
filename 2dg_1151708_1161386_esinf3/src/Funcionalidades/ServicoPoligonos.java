@@ -9,6 +9,7 @@ import Entidades.Polygon;
 import PL.AVL;
 import PL.BST;
 import Utilitarios.LeituraFicheiros;
+import java.util.LinkedList;
 
 public class ServicoPoligonos {
 
@@ -51,7 +52,7 @@ public class ServicoPoligonos {
             nome += poligonoDezenas(dezenas, nome);
         }
         numero = numero % 10;
-        nome += poligonoUnidades(numero, nome) ;
+        nome += poligonoUnidades(numero, nome);
         return nome + "gon";
     }
 
@@ -91,13 +92,11 @@ public class ServicoPoligonos {
         AVL<Polygon> arvoreCompleta = new AVL<>();
         arvoreBalanceadaPoligonos(arvoreCompleta);
         int numero = procuraPorNome(arvoreCompleta, nome);
-        int i = 1;
-        Polygon p = arvoreCompleta.find(new Polygon("", i));
         return numero;
     }
 
     private int procuraPorNome(AVL<Polygon> arvore, String nome) {
-        for (Polygon p : arvore.posOrder()) {
+        for (Polygon p : arvore.inOrder()) {
             if (p.getNome().equalsIgnoreCase(nome)) {
                 return p.getNumeroLados();
             }
@@ -105,4 +104,33 @@ public class ServicoPoligonos {
         return 0;
     }
 
+    public LinkedList<String> poligonosPorIntervalo(int intervaloEsquerda, int intervaloDireita) {
+        if (intervaloDireita < intervaloEsquerda) {
+            return null;
+        }
+        AVL<Polygon> arvoreCompleta = new AVL<>();
+        arvoreBalanceadaPoligonos(arvoreCompleta);
+        AVL<Polygon> arvoreParcial = new AVL<>();
+        for (int i = intervaloEsquerda; i < intervaloDireita + 1; i++) {
+            String nome = nomePoligonoPorNumero(i, true);
+            Polygon p = new Polygon(nome, i);
+            arvoreParcial.insert(p);
+        }
+        LinkedList<String> lista = new LinkedList<>();
+        popularLista(lista, arvoreParcial);
+        return lista;
+    }
+
+    private void popularLista(LinkedList<String> lista, AVL<Polygon> arvore) {
+        for (Polygon polygon : arvore.inOrder()) {
+            lista.addFirst(polygon.getNome());
+        }
+    }
+    
+    public Polygon antecessorComumMaisProximo(Polygon a, Polygon b){
+        AVL<Polygon> arvoreCompleta = new AVL<>();
+        arvoreBalanceadaPoligonos(arvoreCompleta);
+        Polygon result = arvoreCompleta.lowestCommonAncestor(a, b);
+        return result;
+    }
 }
