@@ -42,22 +42,22 @@ public class ServicoPoligonos {
         }
         if (numero >= CENTENAS_MENOR) {
             int centenas = (numero / 100) * 100;
-            nome += poligonoCentenas(centenas, nome);
+            nome += poligonoCentenas(centenas);
         }
         numero = numero % 100;
         if (numero >= DEZENAS_MENOR && numero <= CASO_ESPECIAL_DEZENAS_MAIOR) {
-            nome += poligonoDezenas(numero, nome);
+            nome += poligonoDezenas(numero);
             return nome + "gon";
         } else {
             int dezenas = (numero / 10) * 10;
-            nome += poligonoDezenas(dezenas, nome);
+            nome += poligonoDezenas(dezenas);
         }
         numero = numero % 10;
-        nome += poligonoUnidades(numero, nome);
+        nome += poligonoUnidades(numero);
         return nome + "gon";
     }
 
-    private String poligonoUnidades(int numero, String nome) {
+    private String poligonoUnidades(int numero) {
         if (numero <= UNIDADES_MAIOR && numero >= UNIDADES_MENOR) {
             Polygon p = new Polygon("", numero);
             return arvoreUnidades.find(p).getNome();
@@ -65,7 +65,7 @@ public class ServicoPoligonos {
         return "";
     }
 
-    private String poligonoDezenas(int numero, String nome) {
+    private String poligonoDezenas(int numero) {
         if (numero >= DEZENAS_MENOR && numero <= DEZENAS_MAIOR) {
             Polygon p = new Polygon("", numero);
             return arvoreDezenas.find(p).getNome();
@@ -73,7 +73,7 @@ public class ServicoPoligonos {
         return "";
     }
 
-    private String poligonoCentenas(int numero, String nome) {
+    private String poligonoCentenas(int numero) {
         if (numero >= CENTENAS_MENOR && numero <= CENTENAS_MAIOR) {
             Polygon p = new Polygon("", numero);
             return arvoreCentenas.find(p).getNome();
@@ -98,12 +98,17 @@ public class ServicoPoligonos {
     }
 
     private int procuraPorNome(AVL<Polygon> arvore, String nome) {
-        for (Polygon p : arvore.inOrder()) {
-            if (p.getNome().equalsIgnoreCase(nome)) {
-                return p.getNumeroLados();
+        if (nome != null) {
+            if (nome.equalsIgnoreCase("")) {
+                return -1;
+            }
+            for (Polygon p : arvore.inOrder()) {
+                if (p.getNome().equalsIgnoreCase(nome)) {
+                    return p.getNumeroLados();
+                }
             }
         }
-        return 0;
+        return -1;
     }
 
     public LinkedList<String> poligonosPorIntervalo(int intervaloEsquerda, int intervaloDireita) {
@@ -132,6 +137,7 @@ public class ServicoPoligonos {
             return null;
         }
         if (arvore == null) {
+            arvore = new AVL<Polygon>();
             arvoreBalanceadaPoligonos(arvore);
         }
         Polygon aFind = arvore.find(a);

@@ -91,6 +91,11 @@ public class ServicoPoligonosTest {
             int result = instance.numeroPoligonoPorNome(nome, arvoreCompletaResult);
             assertEquals(expResult, result);
         }
+        
+        int result  = instance.numeroPoligonoPorNome("", arvoreCompletaResult);
+        assertEquals(-1,result);
+        result  = instance.numeroPoligonoPorNome(null, arvoreCompletaResult);
+        assertEquals(-1,result);
     }
 
     /**
@@ -107,6 +112,25 @@ public class ServicoPoligonosTest {
         }
         LinkedList<String> result = instance.poligonosPorIntervalo(intervaloEsquerda, intervaloDireita);
         assertEquals(result, result);
+        
+        intervaloEsquerda = 19;
+        intervaloDireita = 15;
+        result = instance.poligonosPorIntervalo(intervaloEsquerda, intervaloDireita);
+        assertNull(result);
+        
+        intervaloEsquerda = -1;
+        intervaloDireita = 15;
+        result = instance.poligonosPorIntervalo(intervaloEsquerda, intervaloDireita);
+        assertNull(result);
+        
+        intervaloEsquerda = 1;
+        intervaloDireita = -15;
+        result = instance.poligonosPorIntervalo(intervaloEsquerda, intervaloDireita);
+        assertNull(result);
+        
+        
+        
+        
     }
 
     /**
@@ -157,18 +181,73 @@ public class ServicoPoligonosTest {
         resultTree.insert(new Polygon("triskaidecagon",13));
         resultTree.insert(new Polygon("tetrakaidecagon",14));
         resultTree.insert(new Polygon("pentakaidecagon",15));
-        resultTree.insert(new Polygon("hexakaidecagon",16));
+        
 
         for (Polygon polygon : resultTree.inOrder()) {    
             resultList.add(polygon);
         }
-        System.out.println(resultList);
-        
         Polygon a = resultList.getFirst();
         Polygon b = resultList.getLast();
         
         Polygon resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
         Polygon expResult = new Polygon("octagon", 8);
         assertTrue(resultPolygon.equals(expResult));
+        
+        a = resultList.get(0);
+        b = resultList.get(2);
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = new Polygon("digon", 2);
+        assertTrue(resultPolygon.equals(expResult));
+        
+        a = resultList.get(4);
+        b = resultList.get(6);
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = new Polygon("hexagon", 6);
+        assertTrue(resultPolygon.equals(expResult));
+        
+        a = resultList.get(2);
+        b = resultList.get(4);
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = new Polygon("tetragon", 4);
+        assertTrue(resultPolygon.equals(expResult));
+        
+        a = null;
+        b = resultList.get(4);
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = null;
+        assertNull(resultPolygon);
+        
+        a = resultList.get(4);
+        b = null;
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = null;
+        assertNull(resultPolygon);
+        
+        a = resultList.get(4);
+        b = new Polygon("Inexistents", 17);
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = null;
+        assertNull(resultPolygon);
+        
+        a = new Polygon("Inexistents", 17);
+        b = resultList.get(4);
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = null;
+        assertNull(resultPolygon);
+        
+        a = resultList.get(2);
+        b = resultList.get(4);
+        resultTree = new AVL<>();
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = null;
+        assertNull(resultPolygon);
+        
+        a = resultList.get(2);
+        b = resultList.get(4);
+        resultTree = null;
+        resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        expResult = new Polygon("tetragon", 4);
+        assertTrue(resultPolygon.equals(expResult));
+        
     }
 }
