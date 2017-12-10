@@ -143,13 +143,14 @@ public class AVL<E extends Comparable<E>> extends BST<E> {
     }
 
     public E lowestCommonAncestor(E firstElement, E secondElement) {
-        while (root != null) {
-            if (root.getElement().compareTo(firstElement) > 0 && root.getElement().compareTo(secondElement) > 0) {
-                root = root.getLeft();
-            } else if (root.getElement().compareTo(firstElement) < 0 && root.getElement().compareTo(secondElement) < 0) {
-                root = root.getRight();
+        Node<E> temp = root;
+        while (temp != null) {
+            if (temp.getElement().compareTo(firstElement) > 0 && temp.getElement().compareTo(secondElement) > 0) {
+                temp = temp.getLeft();
+            } else if (temp.getElement().compareTo(firstElement) < 0 && temp.getElement().compareTo(secondElement) < 0) {
+                temp = temp.getRight();
             } else {
-                return root.getElement();
+                return temp.getElement();
             }
         }
         return null;

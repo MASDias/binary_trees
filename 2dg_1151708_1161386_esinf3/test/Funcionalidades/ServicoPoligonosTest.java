@@ -61,26 +61,20 @@ public class ServicoPoligonosTest {
      */
     @Test
     public void testArvoreBalanceadaPoligonos() {
-        AVL<Polygon> resultTree = new AVL<>();
-
+        LinkedList<Polygon> expResultListPolygon = new LinkedList<>();
+        LinkedList<Polygon> resultListPolygon = new LinkedList<>();
         for (String linha : polygonResult) {
             String nome = linha.split(";")[0];
             int lados = Integer.parseInt(linha.split(";")[1]);
             Polygon p = new Polygon(nome, lados);
-            resultTree.insert(p);
+            expResultListPolygon.add(p);
         }
-
-        AVL<Polygon> expResultTree = new AVL<>();
-        instance.arvoreBalanceadaPoligonos(expResultTree);
-
-        while (!expResultTree.isEmpty() && !resultTree.isEmpty()) {
-            Polygon result = resultTree.smallestElement();
-            Polygon expResult = expResultTree.smallestElement();
-            assertEquals(result, expResult);
-            resultTree.remove(result);
-            expResultTree.remove(expResult);
+        AVL<Polygon> resultTree = new AVL<>();
+        instance.arvoreBalanceadaPoligonos(resultTree);
+        for (Polygon polygon : resultTree.inOrder()) {
+            resultListPolygon.add(polygon);
         }
-
+        assertEquals(resultListPolygon, expResultListPolygon);
     }
 
     /**
@@ -88,11 +82,13 @@ public class ServicoPoligonosTest {
      */
     @Test
     public void testNumeroPoligonoPorNome() {
+        AVL<Polygon> arvoreCompletaResult = new AVL<>();
+        instance.arvoreBalanceadaPoligonos(arvoreCompletaResult);
         for (int i = 0; i < 999; i++) {
             String strresult = polygonResult.get(i).split(";")[1];
             int expResult = Integer.parseInt(strresult);
             String nome = polygonResult.get(i).split(";")[0];
-            int result = instance.numeroPoligonoPorNome(nome);
+            int result = instance.numeroPoligonoPorNome(nome, arvoreCompletaResult);
             assertEquals(expResult, result);
         }
     }
@@ -111,7 +107,6 @@ public class ServicoPoligonosTest {
         }
         LinkedList<String> result = instance.poligonosPorIntervalo(intervaloEsquerda, intervaloDireita);
         assertEquals(result, result);
-
     }
 
     /**
@@ -120,13 +115,60 @@ public class ServicoPoligonosTest {
     @Test
     public void testAntecessorComumMaisProximo() {
         System.out.println("antecessorComumMaisProximo");
-        AVL<Polygon> arvore = new AVL<>();
+        AVL<Integer> arvore = new AVL<>();
         for (int i = 1; i < 16; i++) {
-            arvore.insert(new Polygon("abc"+i, i));
+            arvore.insert(i);
         }
-        System.out.println(arvore);
-        Polygon r = arvore.lowestCommonAncestor(new Polygon("abc3", 3), new Polygon("abc2", 2));
-        assertEquals(new Polygon("abc2", 2), r);
-    }
+        int result = arvore.lowestCommonAncestor(1, 3);
+        assertEquals(2, result);
+        result = arvore.lowestCommonAncestor(5, 7);
+        assertEquals("Resultado deve ser 6 ", 6, result);
+        result = arvore.lowestCommonAncestor(9, 11);
+        assertEquals("Resultado deve ser 10 ", 10, result);
+        result = arvore.lowestCommonAncestor(13, 15);
+        assertEquals("Resultado deve ser 14 ", 14, result);
+        result = arvore.lowestCommonAncestor(10, 14);
+        assertEquals("Resultado deve ser 12 ", 12, result);
+        result = arvore.lowestCommonAncestor(2, 6);
+        assertEquals("Resultado deve ser 4 ", 4, result);
+        result = arvore.lowestCommonAncestor(4, 12);
+        assertEquals("Resultado deve ser 8 ", 8, result);
+        result = arvore.lowestCommonAncestor(1, 2);
+        assertEquals("Resultado deve ser 2 ", 2, result);
+        result = arvore.lowestCommonAncestor(1, 15);
+        assertEquals("Resultado deve ser 8 ", 8, result);
+        result = arvore.lowestCommonAncestor(7, 9);
+        assertEquals("Resultado deve ser 8 ", 8, result);
 
+        AVL<Polygon> resultTree = new AVL<>();
+        LinkedList<Polygon> resultList = new LinkedList<>();
+        resultTree.insert(new Polygon("henagon",1));
+        resultTree.insert(new Polygon("digon",2));
+        resultTree.insert(new Polygon("trigon",3));
+        resultTree.insert(new Polygon("tetragon",4));
+        resultTree.insert(new Polygon("pentagon",5));
+        resultTree.insert(new Polygon("hexagon",6));
+        resultTree.insert(new Polygon("heptagon",7));
+        resultTree.insert(new Polygon("octagon",8));
+        resultTree.insert(new Polygon("enneagon",9));
+        resultTree.insert(new Polygon("decagon",10));
+        resultTree.insert(new Polygon("hendecagon",11));
+        resultTree.insert(new Polygon("dodecagon",12));
+        resultTree.insert(new Polygon("triskaidecagon",13));
+        resultTree.insert(new Polygon("tetrakaidecagon",14));
+        resultTree.insert(new Polygon("pentakaidecagon",15));
+        resultTree.insert(new Polygon("hexakaidecagon",16));
+
+        for (Polygon polygon : resultTree.inOrder()) {    
+            resultList.add(polygon);
+        }
+        System.out.println(resultList);
+        
+        Polygon a = resultList.getFirst();
+        Polygon b = resultList.getLast();
+        
+        Polygon resultPolygon = instance.antecessorComumMaisProximo(resultTree, a, b);
+        Polygon expResult = new Polygon("octagon", 8);
+        assertTrue(resultPolygon.equals(expResult));
+    }
 }

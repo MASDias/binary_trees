@@ -23,6 +23,7 @@ public class ServicoPoligonos {
     private final int DEZENAS_MAIOR = 90;
     private final int CENTENAS_MENOR = 100;
     private final int CENTENAS_MAIOR = 900;
+    private final int ZERO = 0;
 
     public ServicoPoligonos() {
         this.arvoreUnidades = new AVL();
@@ -88,9 +89,10 @@ public class ServicoPoligonos {
         }
     }
 
-    public int numeroPoligonoPorNome(String nome) {
-        AVL<Polygon> arvoreCompleta = new AVL<>();
-        arvoreBalanceadaPoligonos(arvoreCompleta);
+    public int numeroPoligonoPorNome(String nome, AVL<Polygon> arvoreCompleta) {
+        if (arvoreCompleta == null) {
+            arvoreBalanceadaPoligonos(arvoreCompleta);
+        }
         int numero = procuraPorNome(arvoreCompleta, nome);
         return numero;
     }
@@ -105,11 +107,9 @@ public class ServicoPoligonos {
     }
 
     public LinkedList<String> poligonosPorIntervalo(int intervaloEsquerda, int intervaloDireita) {
-        if (intervaloDireita < intervaloEsquerda) {
+        if (intervaloDireita < intervaloEsquerda || intervaloDireita <= ZERO || intervaloEsquerda <= ZERO) {
             return null;
         }
-        AVL<Polygon> arvoreCompleta = new AVL<>();
-        arvoreBalanceadaPoligonos(arvoreCompleta);
         AVL<Polygon> arvoreParcial = new AVL<>();
         for (int i = intervaloEsquerda; i < intervaloDireita + 1; i++) {
             String nome = nomePoligonoPorNumero(i, true);
@@ -126,11 +126,20 @@ public class ServicoPoligonos {
             lista.addFirst(polygon.getNome());
         }
     }
-    
-    public Polygon antecessorComumMaisProximo(Polygon a, Polygon b){
-        AVL<Polygon> arvoreCompleta = new AVL<>();
-        arvoreBalanceadaPoligonos(arvoreCompleta);
-        Polygon result = arvoreCompleta.lowestCommonAncestor(a, b);
+
+    public Polygon antecessorComumMaisProximo(AVL<Polygon> arvore, Polygon a, Polygon b) {
+        if (a == null || b == null) {
+            return null;
+        }
+        if (arvore == null) {
+            arvoreBalanceadaPoligonos(arvore);
+        }
+        Polygon aFind = arvore.find(a);
+        Polygon bFind = arvore.find(b);
+        if (aFind == null || bFind == null) {
+            return null;
+        }
+        Polygon result = arvore.lowestCommonAncestor(a, b);
         return result;
     }
 }
